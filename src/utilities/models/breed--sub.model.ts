@@ -15,4 +15,9 @@ export const BreedSubModel = types
       return self.id.split('-')[1];
     }
   }))
+  .views((self) => ({
+    get url() {
+      return `/breed/${self.parent.name}/${self.name}/images`;
+    }
+  }))
   .actions((self) => ({}));

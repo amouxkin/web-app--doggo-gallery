@@ -14,6 +14,12 @@ export const BreedBaseModel = types
           return self.id;
         }
       })),
+
     ApiStateModel
   )
-  .named('BreedBaseModel');
+  .named('BreedBaseModel')
+  .views((self) => ({
+    get url() {
+      return `/breed/${self.name}/images`;
+    }
+  }));
