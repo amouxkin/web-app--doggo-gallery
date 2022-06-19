@@ -1,4 +1,4 @@
-import { types } from 'mobx-state-tree';
+import { Instance, types } from 'mobx-state-tree';
 import { ApiStateModel } from './api-state.model';
 
 export const BreedBaseModel = types
@@ -6,15 +6,21 @@ export const BreedBaseModel = types
     types
       .model({
         id: types.identifier,
-        images: types.array(types.string),
         isSelected: types.optional(types.boolean, false)
       })
+      .actions((self) => ({
+        select: () => {
+          self.isSelected = true;
+        },
+        unSelected: () => {
+          self.isSelected = false;
+        }
+      }))
       .views((self) => ({
         get name() {
           return self.id;
         }
       })),
-
     ApiStateModel
   )
   .named('BreedBaseModel')
@@ -23,3 +29,5 @@ export const BreedBaseModel = types
       return `/breed/${self.name}/images`;
     }
   }));
+
+export interface BreedBaseModelInstance extends Instance<typeof BreedBaseModel> {}

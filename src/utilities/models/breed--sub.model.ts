@@ -1,18 +1,15 @@
-import { types } from 'mobx-state-tree';
-import { BreedBaseModel } from './breed--base.model';
-import { BreedParentModel } from './breed--parent.model';
+import { getParent, types } from 'mobx-state-tree';
+import { BreedBaseModel, BreedBaseModelInstance } from './breed--base.model';
 
 export const BreedSubModel = types
-  .compose(
-    types.model({
-      parent: types.reference(types.late(() => BreedParentModel))
-    }),
-    BreedBaseModel
-  )
+  .compose(types.model({}), BreedBaseModel)
   .named('BreedSubModel')
   .views((self) => ({
     get name() {
       return self.id.split('-')[1];
+    },
+    get parent() {
+      return getParent<BreedBaseModelInstance>(self);
     }
   }))
   .views((self) => ({
