@@ -1,4 +1,4 @@
-import { Instance, types } from 'mobx-state-tree';
+import { flow, Instance, types } from 'mobx-state-tree';
 import { ApiStateModel } from './api-state.model';
 
 export const BreedBaseModel = types
@@ -26,8 +26,13 @@ export const BreedBaseModel = types
   .named('BreedBaseModel')
   .views((self) => ({
     get url() {
-      return `/breed/${self.name}/images`;
+      throw new Error(`Implement "url" view`);
     }
+  }))
+  .actions((self) => ({
+    fetchImages: flow(function* () {
+      throw new Error(`Implement "fetchImages"`);
+    })
   }));
 
 export interface BreedBaseModelInstance extends Instance<typeof BreedBaseModel> {}

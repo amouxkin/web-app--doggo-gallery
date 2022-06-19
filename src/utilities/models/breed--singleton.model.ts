@@ -3,4 +3,9 @@ import { BreedBaseModel } from './breed--base.model';
 
 export const BreedSingletonModel = types
   .compose(types.model({}), BreedBaseModel)
-  .named('BreedSingletonModel');
+  .named('BreedSingletonModel')
+  .views((self) => ({
+    get url() {
+      return `/breed/${self.name}/images`;
+    }
+  }));
