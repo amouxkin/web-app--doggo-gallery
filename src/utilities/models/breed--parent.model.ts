@@ -54,3 +54,5 @@ export const BreedParentModel = types
       );
     }
   }));
+
+export interface BreedParentModelInstance extends Instance<typeof BreedParentModel> {}
