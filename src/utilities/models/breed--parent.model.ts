@@ -1,8 +1,9 @@
-import { flow, types } from 'mobx-state-tree';
-import { BreedBaseModel } from './breed--base.model';
-import { BreedSubModel } from './breed--sub.model';
+import { flow, Instance, types } from 'mobx-state-tree';
 import { ImagesResponse } from 'utilities/types';
 import { baseRouter } from 'utilities/router';
+import { interlace } from 'utilities/helpers';
+import { BreedBaseModel } from './breed--base.model';
+import { BreedSubModel } from './breed--sub.model';
 
 export const BreedParentModel = types
   .compose(
@@ -42,4 +43,14 @@ export const BreedParentModel = types
         self.setFailed();
       }
     })
+  }))
+  .views((self) => ({
+    get anySubBreedSelected() {
+      return self.subBreeds.some((subBreed) => subBreed.isSelected);
+    },
+    get images() {
+      return interlace(
+        self.subBreeds.filter((subBreed) => subBreed.isSelected).map((subBreed) => subBreed.images)
+      );
+    }
   }));
