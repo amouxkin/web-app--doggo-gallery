@@ -12,6 +12,11 @@ describe('BreedSubModel', () => {
     message: ['https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg']
   });
 
+  apiGetRequest('breed/hound/images', {
+    status: 'success',
+    message: ['https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg']
+  });
+
   const createParent = () =>
     BreedParentModel.create({
       id: 'hound',
