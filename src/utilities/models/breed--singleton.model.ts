@@ -1,4 +1,4 @@
-import { flow, types } from 'mobx-state-tree';
+import { flow, Instance, types } from 'mobx-state-tree';
 import { BreedBaseModel } from './breed--base.model';
 import { ImagesResponse } from 'utilities/types';
 import { baseRouter } from 'utilities/router';
@@ -29,3 +29,5 @@ export const BreedSingletonModel = types
       }
     })
   }));
+
+export interface BreedSingletonModelInstance extends Instance<typeof BreedSingletonModel> {}
