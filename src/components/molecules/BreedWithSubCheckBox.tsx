@@ -11,6 +11,10 @@ export const BreedWithSubCheckBox = observer<CheckboxProps & { breed: BreedParen
       if (breed.isSelected && !breed.allSubBreedSelected) breed.unSelectJustParent();
     }, [breed.allSubBreedSelected, breed.anySubBreedSelected]);
 
+    useEffect(() => {
+      if (breed.isSelected && !['fetching', 'success'].includes(breed.state)) breed.fetchImages();
+    }, [breed.isSelected]);
+
     return (
       <>
         <Checkbox

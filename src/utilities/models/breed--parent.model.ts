@@ -32,6 +32,7 @@ export const BreedParentModel = types
     },
     fetchImages: flow(function* () {
       self.setFetching();
+
       try {
         const { message }: ImagesResponse = yield baseRouter.url(self.url).get().json();
         self.subBreeds.forEach((subBreed) => subBreed.clear());

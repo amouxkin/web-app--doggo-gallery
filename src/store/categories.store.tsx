@@ -22,7 +22,7 @@ export const CategoriesStore = types
   .views((self) => ({
     get images() {
       return interlace(
-        self.categories
+        ...self.categories
           .filter((category) => {
             if (getType(category) === BreedSingletonModel) return category.isSelected;
             return (category as BreedParentModelInstance).anySubBreedSelected;
