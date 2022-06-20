@@ -1,4 +1,4 @@
-import { flow, getParent, types } from 'mobx-state-tree';
+import { flow, getParent, Instance, types } from 'mobx-state-tree';
 import { BreedBaseModel, BreedBaseModelInstance } from './breed--base.model';
 import { ImagesResponse } from 'utilities/types';
 import { baseRouter } from 'utilities/router';
@@ -45,3 +45,5 @@ export const BreedSubModel = types
       }
     })
   }));
+
+export interface BreedSubModelInstance extends Instance<typeof BreedSubModel> {}
