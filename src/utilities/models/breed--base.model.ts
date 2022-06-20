@@ -12,7 +12,7 @@ export const BreedBaseModel = types
         select: () => {
           self.isSelected = true;
         },
-        unSelected: () => {
+        unSelect: () => {
           self.isSelected = false;
         }
       }))

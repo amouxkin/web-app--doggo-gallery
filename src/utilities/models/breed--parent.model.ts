@@ -25,7 +25,10 @@ export const BreedParentModel = types
     },
     unSelect: () => {
       self.isSelected = false;
-      self.subBreeds.forEach((subBreed) => subBreed.unSelected());
+      self.subBreeds.forEach((subBreed) => subBreed.unSelect());
+    },
+    unSelectJustParent: () => {
+      self.isSelected = false;
     },
     fetchImages: flow(function* () {
       self.setFetching();
@@ -47,6 +50,9 @@ export const BreedParentModel = types
   .views((self) => ({
     get anySubBreedSelected() {
       return self.subBreeds.some((subBreed) => subBreed.isSelected);
+    },
+    get allSubBreedSelected() {
+      return self.subBreeds.every((subBreed) => subBreed.isSelected);
     },
     get images() {
       return interlace(
