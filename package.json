@@ -11,6 +11,7 @@
     "@chakra-ui/react": "^2.2.1",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "chakra-react-select": "^4.0.3",
     "framer-motion": "^6.3.11",
     "mobx": "^6.6.0",
     "mobx-react-lite": "^3.4.0",
