@@ -1,0 +1,18 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "sourceMap": true,
+    "types": ["vitest/globals"],
+    "baseUrl": "../",
+    "paths": {
+      "utilities/*": ["src/utilities/*"],
+      "mocks": ["__tests__/__mocks__"]
+    }
+
+  },
+  "include": ["../src/vite-env.d.ts", "."],
+  "references": [{ "path": "../tsconfig.json" }],
+  "exclude": ["node_modules"]
+}
