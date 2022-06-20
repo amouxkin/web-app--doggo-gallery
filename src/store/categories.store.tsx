@@ -1,4 +1,4 @@
-import { flow, getType, types } from 'mobx-state-tree';
+import { flow, getType, Instance, types } from 'mobx-state-tree';
 import {
   ApiStateModel,
   BreedParentModel,
@@ -9,6 +9,7 @@ import {
 import { baseRouter } from 'utilities/router';
 import { BreedsResponse } from 'utilities/types';
 import { interlace } from 'utilities/helpers';
+import { createContext, FC, useContext, useRef } from 'react';
 
 export const CategoriesStore = types
   .compose(
@@ -83,3 +84,14 @@ export const CategoriesStore = types
       });
     })
   }));
+
+export interface CategoriesStoreInstance extends Instance<typeof CategoriesStore> {}
+
+export const BreedStore = createContext<CategoriesStoreInstance>(null!);
+
+export const BreedStoreProvider: FC = (props) => {
+  const breedStore = useRef(CategoriesStore.create());
+  return <BreedStore.Provider value={breedStore.current} {...props} />;
+};
+
+export const useBreedStore = () => useContext(BreedStore);
