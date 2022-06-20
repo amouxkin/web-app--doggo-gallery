@@ -7,10 +7,11 @@
     "types": ["vitest/globals"],
     "baseUrl": "../",
     "paths": {
-      "utilities/*": ["src/utilities/*"],
-      "mocks": ["__tests__/__mocks__"]
+      "mocks": ["__tests__/__mocks__"],
+      "store": ["src/store"],
+      "store/*": ["src/store/*"],
+      "utilities/*": ["src/utilities/*"]
     }
-
   },
   "include": ["../src/vite-env.d.ts", "."],
   "references": [{ "path": "../tsconfig.json" }],
