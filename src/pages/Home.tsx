@@ -8,9 +8,8 @@ import { BreedWithSubCheckBox } from 'components/molecules';
 
 export const Home: FC = observer(() => {
   const { categories, images } = useBreedStore();
-  console.log(images);
   return (
-    <HStack>
+    <HStack alignItems={'flex-start'}>
       <VStack alignItems={'flex-start'}>
         {categories.map((category) =>
           (category as BreedParentModelInstance)?.subBreeds ? (

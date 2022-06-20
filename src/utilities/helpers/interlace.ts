@@ -7,7 +7,7 @@ export const interlace = <T>(...subjects: Array<Array<T>>) => {
 
   for (let index = 0; index < longest; index++) {
     subjects.forEach((subject) => {
-      if (subject[index]) result.push(subject[index]);
+      if (!!subject.at(index)) result.push(subject[index]);
     });
   }
 
