@@ -1,5 +1,7 @@
-import { getParent, types } from 'mobx-state-tree';
+import { flow, getParent, types } from 'mobx-state-tree';
 import { BreedBaseModel, BreedBaseModelInstance } from './breed--base.model';
+import { ImagesResponse } from 'utilities/types';
+import { baseRouter } from 'utilities/router';
 
 export const BreedSubModel = types
   .compose(
@@ -29,4 +31,17 @@ export const BreedSubModel = types
     pushImage: (imageUrls: string) => {
       self.images.push(imageUrls);
     }
+  }))
+  .actions((self) => ({
+    fetchImages: flow(function* () {
+      self.setFetching();
+      try {
+        const { message }: ImagesResponse = yield baseRouter.url(self.url).get().json();
+        self.images.clear();
+        self.images.push(...message);
+        self.setSuccess();
+      } catch (e) {
+        self.setFailed();
+      }
+    })
   }));
