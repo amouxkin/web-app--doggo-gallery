@@ -9,7 +9,7 @@ import {
 import { baseRouter } from 'utilities/router';
 import { BreedsResponse } from 'utilities/types';
 import { interlace } from 'utilities/helpers';
-import { createContext, FC, useContext, useRef } from 'react';
+import { createContext, FC, ProviderProps, useContext, useRef } from 'react';
 
 export const CategoriesStore = types
   .compose(
@@ -45,10 +45,10 @@ export const CategoriesStore = types
       self.setFetching();
 
       try {
-        const { message }: BreedsResponse = yield baseRouter.url('/breeds/list').get().json();
+        const { message }: BreedsResponse = yield baseRouter.url('/breeds/list/all').get().json();
         self.categories.clear();
         for (let breedName in message) {
-          const subBreeds = message[breedName].map((subBreed) =>
+          const subBreeds = message[breedName]?.map((subBreed) =>
             BreedSubModel.create({ id: `${breedName}-${subBreed}` })
           );
 
@@ -89,7 +89,9 @@ export interface CategoriesStoreInstance extends Instance<typeof CategoriesStore
 
 export const BreedStore = createContext<CategoriesStoreInstance>(null!);
 
-export const BreedStoreProvider: FC = (props) => {
+export const BreedStoreProvider: FC<Omit<ProviderProps<CategoriesStoreInstance>, 'value'>> = (
+  props
+) => {
   const breedStore = useRef(CategoriesStore.create());
   return <BreedStore.Provider value={breedStore.current} {...props} />;
 };

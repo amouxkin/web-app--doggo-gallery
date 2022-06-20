@@ -2,10 +2,10 @@ import { CategoriesStore } from 'store';
 import { apiGetRequest } from 'mocks';
 import { expect } from 'vitest';
 import { runInAction } from 'mobx';
-import { skipCycle } from '../__mocks__/cycle';
+import { skipCycle } from 'mocks';
 
 describe('CategoriesStore', () => {
-  apiGetRequest('breeds/list', {
+  apiGetRequest('breeds/list/all', {
     status: 'success',
     message: {
       appenzeller: [],
