@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Checkbox, CheckboxProps, Stack } from '@chakra-ui/react';
+import { ApiState } from 'utilities/enums';
 import { BreedParentModelInstance } from 'utilities/models';
 import { BreedSingleCheckBox } from 'components/atoms';
 
@@ -12,7 +13,8 @@ export const BreedWithSubCheckBox = observer<CheckboxProps & { breed: BreedParen
     }, [breed.allSubBreedSelected, breed.anySubBreedSelected]);
 
     useEffect(() => {
-      if (breed.isSelected && !['fetching', 'success'].includes(breed.state)) breed.fetchImages();
+      if (breed.isSelected && ![ApiState.fetching, ApiState.success].includes(breed.state))
+        breed.fetchImages();
     }, [breed.isSelected]);
 
     return (

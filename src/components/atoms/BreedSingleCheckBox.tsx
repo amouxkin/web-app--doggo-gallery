@@ -1,16 +1,19 @@
-import { observer } from 'mobx-react-lite';
-import { Checkbox, CheckboxProps } from '@chakra-ui/react';
-import { useEffect } from 'react';
-import {
-  BreedParentModelInstance,
-  BreedSingletonModelInstance,
-  BreedSubModel,
-  BreedSubModelInstance
-} from 'utilities/models';
-import { getType } from 'mobx-state-tree';
+import { useEffect } from "react";
+import { getType } from "mobx-state-tree";
+import { observer } from "mobx-react-lite";
+import { Checkbox, CheckboxProps } from "@chakra-ui/react";
+import { ApiState } from "utilities/enums";
+import { BreedParentModelInstance, BreedSubModel, BreedSubModelInstance } from "utilities/models";
 
 export interface BreedSingleCheckBoxProps extends CheckboxProps {
-  breed: BreedSingletonModelInstance | BreedSubModelInstance;
+  breed: {
+    state: ApiState;
+    isSelected: boolean;
+    name: string;
+    unSelect: () => void;
+    select: () => void;
+    fetchImages: () => void;
+  };
 }
 
 export const BreedSingleCheckBox = observer<BreedSingleCheckBoxProps>(({ breed, ...props }) => {
@@ -23,7 +26,7 @@ export const BreedSingleCheckBox = observer<BreedSingleCheckBoxProps>(({ breed, 
       return;
     }
 
-    if (breed.isSelected && !['fetching', 'success'].includes(breed.state)) breed.fetchImages();
+    if (breed.isSelected && ![ApiState.fetching, ApiState.success].includes(breed.state)) breed.fetchImages();
   }, [breed.isSelected]);
 
   return (
