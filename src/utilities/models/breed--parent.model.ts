@@ -56,7 +56,9 @@ export const BreedParentModel = types
     },
     get images() {
       return interlace(
-        self.subBreeds.filter((subBreed) => subBreed.isSelected).map((subBreed) => subBreed.images)
+        ...self.subBreeds
+          .filter((subBreed) => subBreed.isSelected)
+          .map((subBreed) => subBreed.images)
       );
     }
   }))
