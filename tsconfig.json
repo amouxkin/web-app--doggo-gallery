@@ -17,6 +17,7 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
+      "components/*": ["src/components/*"],
       "store": ["src/store"],
       "store/*": ["src/store/*"],
       "utilities/*": ["src/utilities/*"]
