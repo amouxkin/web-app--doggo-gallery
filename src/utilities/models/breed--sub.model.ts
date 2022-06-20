@@ -16,7 +16,7 @@ export const BreedSubModel = types
       return self.id.split('-')[1];
     },
     get parent() {
-      return getParent<BreedBaseModelInstance>(self);
+      return getParent<BreedBaseModelInstance>(getParent(self));
     }
   }))
   .views((self) => ({
