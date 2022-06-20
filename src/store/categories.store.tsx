@@ -28,6 +28,15 @@ export const CategoriesStore = types
           })
           .map((category) => category.images)
       );
+    },
+    get isAnyFetching() {
+      return self.categories.some((category) => {
+        if (getType(category) === BreedSingletonModel) return category.state === 'fetching';
+        return (
+          (category as BreedParentModelInstance).anySubBreedSelected ||
+          category.state === 'fetching'
+        );
+      });
     }
   }))
   .actions((self) => ({
@@ -62,5 +71,15 @@ export const CategoriesStore = types
         self.setFailed();
         throw e;
       }
+    }),
+    fetchSelectedImages: flow(function* () {
+      self.categories.forEach((category) => {
+        if (['fetching', 'success'].includes(category.state)) return;
+        if (category.isSelected) category.fetchImages();
+
+        if (getType(category) === BreedParentModel) {
+          (category as BreedParentModelInstance).fetchSubImages();
+        }
+      });
     })
   }));

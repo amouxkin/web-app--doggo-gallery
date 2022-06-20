@@ -53,6 +53,13 @@ export const BreedParentModel = types
         self.subBreeds.filter((subBreed) => subBreed.isSelected).map((subBreed) => subBreed.images)
       );
     }
+  }))
+  .actions((self) => ({
+    fetchSubImages: () => {
+      self.subBreeds
+        .filter((subBreed) => subBreed.isSelected)
+        .forEach((subBreed) => subBreed.fetchImages());
+    }
   }));
 
 export interface BreedParentModelInstance extends Instance<typeof BreedParentModel> {}
