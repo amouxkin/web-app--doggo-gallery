@@ -3,7 +3,7 @@ import { Route, Router, Switch } from 'wouter';
 import { observer } from 'mobx-react-lite';
 import { useBreedStore } from 'store';
 import { NavigationBar } from 'components/templates';
-import { Selector } from './pages';
+import { Home, Selector } from './pages';
 
 export const App: FC = observer(() => {
   const store = useBreedStore();
@@ -20,6 +20,9 @@ export const App: FC = observer(() => {
           <Selector />
         </Route>
         <Route path={'/saved'}>Saved</Route>
+        <Route path={'/home'}>
+          <Home />
+        </Route>
       </Switch>
     </Router>
   );

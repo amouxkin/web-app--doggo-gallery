@@ -1,9 +1,14 @@
 import { observer } from 'mobx-react-lite';
 import { Select } from 'chakra-react-select';
-import { BreedParentModelInstance, BreedSingletonModelInstance } from 'utilities/models';
-import { useBreedStore } from 'store';
+import {
+  BreedParentModelInstance,
+  BreedSingletonModelInstance,
+  BreedSubModelInstance
+} from 'utilities/models';
+import { FilteredBreedInstance, useBreedStore } from 'store';
 import { useState } from 'react';
 import { Button, HStack } from '@chakra-ui/react';
+import { cast, castToReferenceSnapshot } from 'mobx-state-tree';
 
 export type BreedSelectorValues = {
   label: string;
@@ -14,7 +19,7 @@ export const BreedSelector = observer(() => {
   const { categories } = useBreedStore();
 
   const [values, setValues] = useState<
-    Array<BreedParentModelInstance | BreedSingletonModelInstance>
+    Array<BreedParentModelInstance | BreedSubModelInstance | BreedSingletonModelInstance>
   >([]);
 
   return (
@@ -36,23 +41,22 @@ export const BreedSelector = observer(() => {
           (category as BreedParentModelInstance)?.subBreeds?.forEach((subBreed) =>
             options.push({
               label: `${category.name}-${subBreed.name}`,
-              value: category
+              value: subBreed
             })
           );
 
           return options;
         }, [] as BreedSelectorValues[])}
         isMulti
-        placeholder={'Enter a breed name'}
+        placeholder={'Enter a category name'}
         closeMenuOnSelect={false}
         onChange={(newValue) => setValues(newValue.map((newValue) => newValue.value))}
       />
       <Button
         onClick={() => {
-          categories.forEach((category) => {
-            values.includes(category)
-              ? category.select()
-              : category.isSelected && category.unSelect();
+          values.forEach((value) => {
+            console.log(value);
+            value.filter();
           });
         }}
       >

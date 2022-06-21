@@ -1,25 +1,27 @@
-import { flow, getType, Instance, types } from 'mobx-state-tree';
+import { cast, flow, getType, Instance, types } from 'mobx-state-tree';
 import {
   ApiStateModel,
   BreedParentModel,
   BreedParentModelInstance,
   BreedSingletonModel,
   BreedSingletonModelInstance,
-  BreedSubModel,
-  BreedSubModelInstance
+  BreedSubModel
 } from 'utilities/models';
 import { baseRouter } from 'utilities/router';
 import { BreedsResponse } from 'utilities/types';
 import { interlace } from 'utilities/helpers';
 import { createContext, FC, ProviderProps, useContext, useRef } from 'react';
 
+export const FilteredBreed = types.array(
+  types.reference(types.union(BreedParentModel, BreedSingletonModel, BreedSubModel))
+);
+
+export interface FilteredBreedInstance extends Instance<typeof FilteredBreed> {}
+
 export const CategoriesStore = types
   .compose(
     types.model({
-      categories: types.array(types.union(BreedParentModel, BreedSingletonModel)),
-      filtered: types.array(
-        types.reference(types.union(BreedSingletonModel, BreedParentModel, BreedSubModel))
-      )
+      categories: types.array(types.union(BreedParentModel, BreedSingletonModel))
     }),
     ApiStateModel
   )
@@ -46,6 +48,14 @@ export const CategoriesStore = types
           category.state === 'fetching'
         );
       });
+    },
+    get filteredBreeds(): Array<BreedParentModelInstance | BreedSingletonModelInstance> {
+      return self.categories.filter((category) => {
+        if (getType(category) === BreedParentModel) {
+          return (category as BreedParentModelInstance).anySubBreedSelected || category.isSelected;
+        }
+        return category.isSelected;
+      });
     }
   }))
   .actions((self) => ({
@@ -54,14 +64,6 @@ export const CategoriesStore = types
     },
     unSelectAllCategories: () => {
       self.categories.forEach((category) => category.unSelect());
-    },
-    setFiltered: (
-      ...items: Array<
-        BreedSingletonModelInstance | BreedParentModelInstance | BreedSubModelInstance
-      >
-    ) => {
-      self.filtered.clear();
-      self.filtered.push(...items);
     },
     fetchCategories: flow(function* () {
       self.setFetching();

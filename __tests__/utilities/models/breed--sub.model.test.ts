@@ -43,7 +43,7 @@ describe('BreedSubModel', () => {
     expect(parent.subBreeds[0].images.length).toBe(1);
   });
 
-  it('should override images in subBreed when breed is fetched', async () => {
+  it('should override images in subBreed when category is fetched', async () => {
     const parent = createParent();
     await parent.fetchImages();
 
