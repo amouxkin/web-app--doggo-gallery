@@ -1,5 +1,5 @@
 import { createContext, FC, ProviderProps, useContext, useRef } from 'react';
-import { flow, Instance, types } from 'mobx-state-tree';
+import { cast, castToReferenceSnapshot, flow, Instance, types } from 'mobx-state-tree';
 import {
   ApiStateModel,
   ChildCategory,
@@ -17,10 +17,23 @@ import { interlace } from 'utilities/helpers';
 export const CategoriesStore = types
   .compose(
     types.model({
-      categories: types.map(types.union(ParentCategory, SingletonCategory))
+      categories: types.map(types.union(ParentCategory, SingletonCategory)),
+      selectedCategories: types.array(
+        types.reference(types.union(ParentCategory, SingletonCategory, ChildCategory))
+      )
     }),
     ApiStateModel
   )
+  .actions((self) => ({
+    setSelectedCategories: (
+      newSelected: (ChildCategoryInstance | SingletonCategoryInstance | ParentCategoryInstance)[]
+    ) => {
+      self.selectedCategories.clear();
+      newSelected.forEach((selected) => {
+        self.selectedCategories.push(selected);
+      });
+    }
+  }))
   .views((self) => ({
     /**
      * For Input Selection.

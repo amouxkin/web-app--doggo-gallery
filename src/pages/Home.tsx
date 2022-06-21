@@ -21,7 +21,7 @@ export const Home = observer(() => {
       <GridItem pl="2" area={'header'} justifySelf={'center'}>
         <BreedSelector />
       </GridItem>
-      <GridItem pl="2" bg="blue.300" area={'gallery'}>
+      <GridItem pl="2" area={'gallery'}>
         <ImageGallery />
       </GridItem>
     </Grid>

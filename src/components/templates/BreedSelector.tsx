@@ -11,14 +11,22 @@ import {
 import { useBreedStore } from 'store';
 
 export const BreedSelector = observer(() => {
-  const { categoriesAsOptions, fetchSelectedImages, categories } = useBreedStore();
+  const {
+    categoriesAsOptions,
+    fetchSelectedImages,
+    categories,
+    setSelectedCategories,
+    selectedCategories
+  } = useBreedStore();
+
+  console.log(selectedCategories);
 
   const [values, setValues] = useState<
     Array<{
       label: string;
       value: ChildCategoryInstance | SingletonCategoryInstance | ParentCategoryInstance;
     }>
-  >([]);
+  >(selectedCategories.map((category) => ({ label: category.id, value: category })));
 
   return (
     <HStack>
@@ -60,6 +68,8 @@ export const BreedSelector = observer(() => {
               });
             }
           });
+
+          setSelectedCategories(rawValues);
           fetchSelectedImages();
         }}
       >
