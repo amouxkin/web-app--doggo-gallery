@@ -2,10 +2,13 @@ import { createContext, FC, ProviderProps, useContext, useRef } from 'react';
 import { flow, Instance, types } from 'mobx-state-tree';
 import {
   ApiStateModel,
-  BreedSingletonModel,
   ChildCategory,
+  ChildCategoryInstance,
+  isParentCategory,
   ParentCategory,
-  SingletonCategory
+  ParentCategoryInstance,
+  SingletonCategory,
+  SingletonCategoryInstance
 } from 'utilities/models';
 import { baseRouter } from 'utilities/router';
 import { BreedsResponse } from 'utilities/types';
@@ -17,6 +20,21 @@ export const CategoriesStore = types
     }),
     ApiStateModel
   )
+  .views((self) => ({
+    /**
+     * For Input Selection.
+     */
+    get categoriesAsOptions() {
+      return Array.from(self.categories.values()).reduce((list, category) => {
+        list.push({ label: category.id, value: category });
+
+        if (isParentCategory(category)) {
+          category.children.forEach((child) => list.push({ label: child.id, value: child }));
+        }
+        return list;
+      }, [] as Array<{ label: string; value: ChildCategoryInstance | SingletonCategoryInstance | ParentCategoryInstance }>);
+    }
+  }))
   .named('CategoriesStore')
   .actions((self) => ({
     fetchCategories: flow(function* () {
