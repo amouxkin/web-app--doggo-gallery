@@ -4,11 +4,11 @@ import { observer } from 'mobx-react-lite';
 import { useBreedStore } from 'store';
 
 export const ImageGallery = observer(() => {
-  const { images } = useBreedStore();
+  const { interlacedSelectedImages } = useBreedStore();
   return (
     <Wrap>
       <AnimatePresence presenceAffectsLayout>
-        {images.map((image) => {
+        {interlacedSelectedImages.map((image) => {
           // TODO: change image from string to model.
           const [breed, subBreed] = image.split('/').slice(4)[0].split('-');
           return (

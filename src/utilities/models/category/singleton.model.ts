@@ -12,6 +12,7 @@ export const SingletonCategory = types
     }
   }))
   .actions((self) => ({
+    // TODO: Refactor this with child
     fetchImages: flow(function* () {
       self.setFetching();
       try {

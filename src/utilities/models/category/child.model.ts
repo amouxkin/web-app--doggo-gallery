@@ -1,9 +1,12 @@
-import { getParent, Instance, types } from 'mobx-state-tree';
+import { flow, getParent, Instance, types } from 'mobx-state-tree';
 import {
   BaseCategory,
   BaseCategoryInstance,
-  CategoryImages
+  CategoryImages,
+  CategoryImagesInstance
 } from 'utilities/models/category/base.model';
+import { ImagesResponse } from 'utilities/types';
+import { baseRouter } from 'utilities/router';
 
 export const ChildCategory = types
   .compose(BaseCategory, CategoryImages)
@@ -20,6 +23,20 @@ export const ChildCategory = types
     get url() {
       return `/breed/${self.parent.name}/${self.name}/images`;
     }
+  }))
+  .actions((self) => ({
+    // TODO: Refactor this with singleton
+    fetchImages: flow(function* () {
+      self.setFetching();
+      try {
+        const { message }: ImagesResponse = yield baseRouter.url(self.url).get().json();
+        self.images.clear();
+        self.pushImages(...message);
+        self.setSuccess();
+      } catch (e) {
+        self.setFailed();
+      }
+    })
   }));
 
 export interface ChildCategoryInstance extends Instance<typeof ChildCategory> {}

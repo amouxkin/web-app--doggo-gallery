@@ -3,6 +3,7 @@ import { BaseCategory } from 'utilities/models/category/base.model';
 import { ChildCategory, ChildCategoryInstance } from 'utilities/models/category/child.model';
 import { ImagesResponse } from 'utilities/types';
 import { baseRouter } from 'utilities/router';
+import { interlace } from 'utilities/helpers';
 
 export const ParentCategory = BaseCategory.props({
   children: types.map(ChildCategory)
@@ -51,6 +52,13 @@ export const ParentCategory = BaseCategory.props({
     },
     get allChildrenSelected() {
       return self.childrenArray.every((child) => child.isSelected);
+    },
+    get interlacedSelectedImages() {
+      return interlace(
+        ...self.childrenArray.map((child) =>
+          child.isSelected || self.isSelected ? Array.from(child.images.values()) : []
+        )
+      );
     }
   }))
   .views((self) => ({

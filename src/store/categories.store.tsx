@@ -12,6 +12,7 @@ import {
 } from 'utilities/models';
 import { baseRouter } from 'utilities/router';
 import { BreedsResponse } from 'utilities/types';
+import { interlace } from 'utilities/helpers';
 
 export const CategoriesStore = types
   .compose(
@@ -33,6 +34,17 @@ export const CategoriesStore = types
         }
         return list;
       }, [] as Array<{ label: string; value: ChildCategoryInstance | SingletonCategoryInstance | ParentCategoryInstance }>);
+    },
+    get interlacedSelectedImages() {
+      return interlace(
+        ...Array.from(self.categories.values()).map((category) =>
+          isParentCategory(category)
+            ? category.interlacedSelectedImages
+            : category.isSelected
+            ? Array.from(category.images.values())
+            : []
+        )
+      );
     }
   }))
   .named('CategoriesStore')

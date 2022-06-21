@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { Grid, GridItem } from '@chakra-ui/react';
-import { BreedSelector } from 'components/templates';
+import { BreedSelector, ImageGallery } from 'components/templates';
 import { useBreedStore } from 'store';
 
 export const Home = observer(() => {
@@ -22,7 +22,7 @@ export const Home = observer(() => {
         <BreedSelector />
       </GridItem>
       <GridItem pl="2" bg="blue.300" area={'gallery'}>
-        Gallery
+        <ImageGallery />
       </GridItem>
     </Grid>
   );
