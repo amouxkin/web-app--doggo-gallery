@@ -12,7 +12,7 @@ import {
 } from 'utilities/models';
 import { baseRouter } from 'utilities/router';
 import { BreedsResponse } from 'utilities/types';
-import { interlace } from 'utilities/helpers';
+import { getImageId, interlace } from 'utilities/helpers';
 
 export const CategoriesStore = types
   .compose(
@@ -28,12 +28,12 @@ export const CategoriesStore = types
   .actions((self) => ({
     addToFavorites: (...imageUrls: string[]) => {
       imageUrls.forEach((imageUrl) => {
-        self.favorites.set(imageUrl.split('/').pop()!, imageUrl);
+        self.favorites.set(getImageId(imageUrl), imageUrl);
       });
     },
     removeFromFavorites: (...imageUrls: string[]) => {
       imageUrls.forEach((imageUrl) => {
-        self.favorites.delete(imageUrl.split('/').pop()!);
+        self.favorites.delete(getImageId(imageUrl));
       });
     },
     setSelectedCategories: (

@@ -3,7 +3,7 @@ import { Route, Router, Switch } from 'wouter';
 import { observer } from 'mobx-react-lite';
 import { useBreedStore } from 'store';
 import { ImageGallery, NavigationBar } from 'components/templates';
-import { Home, Selector } from './pages';
+import { Home } from './pages';
 
 export const App: FC = observer(() => {
   const store = useBreedStore();
