@@ -16,11 +16,8 @@ export const App: FC = observer(() => {
     <Router>
       <NavigationBar />
       <Switch>
-        <Route path={'/selector'}>
-          <Selector />
-        </Route>
         <Route path={'/saved'}>Saved</Route>
-        <Route path={'/home'}>
+        <Route path={'/'}>
           <Home />
         </Route>
       </Switch>

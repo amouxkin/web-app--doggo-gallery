@@ -18,7 +18,7 @@ export const ParentCategory = BaseCategory.props({
   }))
   .actions((self) => ({
     addChildren: (...children: ChildCategoryInstance[]) =>
-      children.forEach((child) => self.children.set(child.name, child)),
+      children.forEach((child) => self.children.set(child.id, child)),
     selectChildren: () => self.children.forEach((child) => child.select()),
     unSelectChildren: () => self.children.forEach((child) => child.unSelect()),
     fetchImages: flow(function* () {
