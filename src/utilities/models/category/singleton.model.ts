@@ -1,4 +1,4 @@
-import { flow, types } from 'mobx-state-tree';
+import { flow, Instance, types } from 'mobx-state-tree';
 import { BaseCategory, CategoryImages } from 'utilities/models/category/base.model';
 import { ImagesResponse } from 'utilities/types';
 import { baseRouter } from 'utilities/router';
@@ -24,3 +24,5 @@ export const SingletonCategory = types
       }
     })
   }));
+
+export interface SingletonCategoryInstance extends Instance<typeof SingletonCategory> {}
