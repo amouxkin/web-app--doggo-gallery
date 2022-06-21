@@ -10,7 +10,7 @@ import {
 import { useBreedStore } from 'store';
 
 export const BreedSelector = observer(() => {
-  const { categoriesAsOptions } = useBreedStore();
+  const { categoriesAsOptions, fetchSelectedImages } = useBreedStore();
 
   const [values, setValues] = useState<
     Array<{
@@ -24,9 +24,10 @@ export const BreedSelector = observer(() => {
       <Select
         size="md"
         chakraStyles={{
-          input: (provided) => ({
+          container: (provided) => ({
             ...provided,
-            minW: '200px'
+            minW: '32rem',
+            maxW: '32rem'
           })
         }}
         options={categoriesAsOptions}
@@ -48,13 +49,7 @@ export const BreedSelector = observer(() => {
           });
         }}
       />
-      <Button
-        onClick={() => {
-          values.forEach((value) => {});
-        }}
-      >
-        Search
-      </Button>
+      <Button onClick={fetchSelectedImages}>Search</Button>
     </HStack>
   );
 });

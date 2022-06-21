@@ -69,7 +69,26 @@ export const CategoriesStore = types
         self.setFailed();
         throw e;
       }
-    })
+    }),
+    fetchSelectedImages: () => {
+      self.categories.forEach((category) => {
+        /**
+         * If it's a parent, if it's selected only run fetchImages for those. But if only a few of it's children
+         * are selected, just run for those.
+         */
+        if (isParentCategory(category)) {
+          if (category.isSelected || category.allChildrenSelected) {
+            !category.fetchSucceeded && category.fetchImages();
+          } else if (category.isIndeterminate) {
+            category.children.forEach((child) => {
+              !child.fetchSucceeded && child.fetchImages();
+            });
+          }
+        } else {
+          if (category.isSelected && !category.fetchSucceeded) category.fetchImages();
+        }
+      });
+    }
   }));
 
 export interface CategoriesStoreInstance extends Instance<typeof CategoriesStore> {}

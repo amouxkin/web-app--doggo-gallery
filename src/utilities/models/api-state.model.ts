@@ -5,6 +5,11 @@ export const ApiStateModel = types
   .model('ApiStateModel', {
     state: types.optional(types.enumeration(Object.values(ApiState)), ApiState.idle)
   })
+  .views((self) => ({
+    get fetchSucceeded() {
+      return self.state === ApiState.success;
+    }
+  }))
   .actions((self) => ({
     setFetching: () => {
       self.state = ApiState.fetching;
