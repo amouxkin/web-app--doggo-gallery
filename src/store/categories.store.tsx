@@ -4,7 +4,9 @@ import {
   BreedParentModel,
   BreedParentModelInstance,
   BreedSingletonModel,
-  BreedSubModel
+  BreedSingletonModelInstance,
+  BreedSubModel,
+  BreedSubModelInstance
 } from 'utilities/models';
 import { baseRouter } from 'utilities/router';
 import { BreedsResponse } from 'utilities/types';
@@ -14,7 +16,10 @@ import { createContext, FC, ProviderProps, useContext, useRef } from 'react';
 export const CategoriesStore = types
   .compose(
     types.model({
-      categories: types.array(types.union(BreedParentModel, BreedSingletonModel))
+      categories: types.array(types.union(BreedParentModel, BreedSingletonModel)),
+      filtered: types.array(
+        types.reference(types.union(BreedSingletonModel, BreedParentModel, BreedSubModel))
+      )
     }),
     ApiStateModel
   )
@@ -49,6 +54,14 @@ export const CategoriesStore = types
     },
     unSelectAllCategories: () => {
       self.categories.forEach((category) => category.unSelect());
+    },
+    setFiltered: (
+      ...items: Array<
+        BreedSingletonModelInstance | BreedParentModelInstance | BreedSubModelInstance
+      >
+    ) => {
+      self.filtered.clear();
+      self.filtered.push(...items);
     },
     fetchCategories: flow(function* () {
       self.setFetching();
