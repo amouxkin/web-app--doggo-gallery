@@ -34,30 +34,29 @@ export const Home: FC = observer(() => {
           )
         )}
       </VStack>
-      <VStack>
-        <HStack>
-          <Box>
-            <Select
-              options={categories.reduce((options, category) => {
+      <VStack w={'full'}>
+        <HStack w={'full'}>
+          <Select
+            size="md"
+            options={categories.reduce((options, category) => {
+              options.push({
+                label: category.name,
+                value: category.name
+              });
+
+              (category as BreedParentModelInstance)?.subBreeds?.forEach((subBreed) =>
                 options.push({
-                  label: category.name,
-                  value: category.name
-                });
+                  label: `${category.name}-${subBreed.name}`,
+                  value: `${category.name}-${subBreed.name}`
+                })
+              );
 
-                (category as BreedParentModelInstance)?.subBreeds?.forEach((subBreed) =>
-                  options.push({
-                    label: `${category.name}-${subBreed.name}`,
-                    value: `${category.name}-${subBreed.name}`
-                  })
-                );
-
-                return options;
-              }, [] as Array<{ label: string; value: string }>)}
-              isMulti
-              placeholder={'Enter a breed name'}
-              closeMenuOnSelect={false}
-            />
-          </Box>
+              return options;
+            }, [] as Array<{ label: string; value: string }>)}
+            isMulti
+            placeholder={'Enter a breed name'}
+            closeMenuOnSelect={false}
+          />
         </HStack>
         <Wrap>
           <AnimatePresence presenceAffectsLayout>
