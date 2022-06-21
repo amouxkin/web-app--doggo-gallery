@@ -1,8 +1,11 @@
 import { FC } from 'react';
-import { Box } from '@chakra-ui/react';
+import { HStack } from '@chakra-ui/react';
+import { Link } from 'components/atoms';
 
 export const NavigationBar: FC = () => (
-  <Box as={'nav'}>
-    <p>Navigation</p>
-  </Box>
-);
+    <HStack gap={2} as={'nav'}>
+      <Link to={'/home'}> Home </Link>
+      <Link to={'/selector'}> Selector </Link>
+      <Link to={'/saved'}> Saved Images </Link>
+    </HStack>
+  );
