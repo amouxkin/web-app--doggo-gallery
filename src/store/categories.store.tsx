@@ -20,11 +20,22 @@ export const CategoriesStore = types
       categories: types.map(types.union(ParentCategory, SingletonCategory)),
       selectedCategories: types.array(
         types.reference(types.union(ParentCategory, SingletonCategory, ChildCategory))
-      )
+      ),
+      favorites: types.map(types.string)
     }),
     ApiStateModel
   )
   .actions((self) => ({
+    addToFavorites: (...imageUrls: string[]) => {
+      imageUrls.forEach((imageUrl) => {
+        self.favorites.set(imageUrl.split('/').pop()!, imageUrl);
+      });
+    },
+    removeFromFavorites: (...imageUrls: string[]) => {
+      imageUrls.forEach((imageUrl) => {
+        self.favorites.delete(imageUrl.split('/').pop()!);
+      });
+    },
     setSelectedCategories: (
       newSelected: (ChildCategoryInstance | SingletonCategoryInstance | ParentCategoryInstance)[]
     ) => {
