@@ -39,10 +39,6 @@ export const BreedSelector = observer(() => {
         onChange={(newValue) => {
           if (newValue.length > 5) return;
           setValues(
-            //   prevState.forEach((child) => {
-            //     if (!newValue.includes(child)) child.value.unSelect();
-            //   });
-            //   newValue.forEach((child) => child.value.select());
             newValue as Array<{
               label: string;
               value: ChildCategoryInstance | SingletonCategoryInstance | ParentCategoryInstance;
