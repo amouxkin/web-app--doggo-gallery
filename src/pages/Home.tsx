@@ -1,11 +1,10 @@
 import { FC } from 'react';
 import { observer } from 'mobx-react-lite';
 import { HStack, VStack } from '@chakra-ui/react';
-import { BreedParentModelInstance, BreedSingletonModelInstance } from 'utilities/models';
+import { BreedParentModelInstance } from 'utilities/models';
 import { useBreedStore } from 'store';
 import { BreedSingleCheckBox } from 'components/atoms';
 import { BreedWithSubCheckBox } from 'components/molecules';
-import { Select } from 'chakra-react-select';
 import { ImageGallery } from 'components/templates';
 
 export const Home: FC = observer(() => {
@@ -25,35 +24,7 @@ export const Home: FC = observer(() => {
         )}
       </VStack>
       <VStack w={'full'}>
-        <HStack w={'full'}>
-          <Select
-            size="md"
-            chakraStyles={{
-              input: (provided, state) => ({
-                ...provided,
-                minW: '200px'
-              })
-            }}
-            options={categories.reduce((options, category) => {
-              options.push({
-                label: category.name,
-                value: category
-              });
-
-              (category as BreedParentModelInstance)?.subBreeds?.forEach((subBreed) =>
-                options.push({
-                  label: `${category.name}-${subBreed.name}`,
-                  value: category
-                })
-              );
-
-              return options;
-            }, [] as Array<{ label: string; value: BreedParentModelInstance | BreedSingletonModelInstance }>)}
-            isMulti
-            placeholder={'Enter a breed name'}
-            closeMenuOnSelect={false}
-          />
-        </HStack>
+        <HStack w={'full'}></HStack>
         <ImageGallery />
       </VStack>
     </HStack>
