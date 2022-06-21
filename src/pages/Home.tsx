@@ -1,14 +1,33 @@
 import { observer } from 'mobx-react-lite';
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Checkbox, Grid, GridItem, Stack } from '@chakra-ui/react';
 import { BreedSelector, ImageGallery } from 'components/templates';
 import { useBreedStore } from 'store';
+import {
+  isChildCategory,
+  isParentCategory,
+  isSingletonCategory,
+  ParentCategoryInstance,
+  SingletonCategoryInstance
+} from 'utilities/models';
+import { useMemo } from 'react';
 
 export const Home = observer(() => {
-  const store = useBreedStore();
+  const { selectedCategories } = useBreedStore();
+  const treeNodes = useMemo(() => {
+    const arrayElements = new Set<SingletonCategoryInstance | ParentCategoryInstance>();
+    selectedCategories.forEach((category) => {
+      if (isChildCategory(category)) arrayElements.add(category.parent as ParentCategoryInstance);
+      arrayElements.add(category);
+    });
+
+    return Array.from(arrayElements.values());
+  }, [selectedCategories.map((category) => category.id).join('--')]);
+
   return (
     <Grid
       templateAreas={`
-      "nav header"
+      "nav selector"
+      "nav selector"
       "nav gallery"`}
       gridTemplateRows={'50px 1fr 30px'}
       gridTemplateColumns={'150px 1fr'}
@@ -17,11 +36,60 @@ export const Home = observer(() => {
       color="blackAlpha.700"
       fontWeight="bold"
     >
-      <GridItem pl="2" bg="pink.300" area={'nav'}></GridItem>
-      <GridItem pl="2" area={'header'} justifySelf={'center'}>
+      <GridItem key={'nav'} pl="2" pt="12" area={'nav'}>
+        {treeNodes.map((category) =>
+          isParentCategory(category) ? (
+            <Stack key={category.id}>
+              <Checkbox
+                isChecked={category.isSelected || category.allChildrenSelected}
+                isIndeterminate={category.isIndeterminate}
+                onChange={() => {
+                  if (category.isSelected) {
+                    category.unSelect();
+                    category.unSelectChildren();
+                  } else {
+                    category.select();
+                    category.selectChildren();
+                  }
+                }}
+              >
+                {category.name}
+              </Checkbox>
+              <Stack key={`${category.id}--sub`} pl={6}>
+                {category.childrenArray
+                  .filter((child) => selectedCategories.includes(child))
+                  .map((child) => (
+                    <Checkbox
+                      key={child.id}
+                      isChecked={child.isSelected}
+                      onChange={() => {
+                        child.isSelected ? child.unSelect() : child.select();
+                      }}
+                    >
+                      {child.name}
+                    </Checkbox>
+                  ))}
+              </Stack>
+            </Stack>
+          ) : (
+            isSingletonCategory(category) && (
+              <Checkbox
+                key={category.id}
+                isChecked={category.isSelected}
+                onChange={() => {
+                  category.isSelected ? category.unSelect() : category.select();
+                }}
+              >
+                {category.name}
+              </Checkbox>
+            )
+          )
+        )}
+      </GridItem>
+      <GridItem key={'selector'} pl="2" area={'selector'} justifySelf={'center'}>
         <BreedSelector />
       </GridItem>
-      <GridItem pl="2" area={'gallery'}>
+      <GridItem key={'gallery'} pl="2" area={'gallery'}>
         <ImageGallery />
       </GridItem>
     </Grid>

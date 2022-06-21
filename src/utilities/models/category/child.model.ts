@@ -1,9 +1,8 @@
-import { flow, getParent, Instance, types } from 'mobx-state-tree';
+import { flow, getParent, getType, Instance, types } from 'mobx-state-tree';
 import {
   BaseCategory,
   BaseCategoryInstance,
-  CategoryImages,
-  CategoryImagesInstance
+  CategoryImages
 } from 'utilities/models/category/base.model';
 import { ImagesResponse } from 'utilities/types';
 import { baseRouter } from 'utilities/router';
@@ -40,3 +39,6 @@ export const ChildCategory = types
   }));
 
 export interface ChildCategoryInstance extends Instance<typeof ChildCategory> {}
+
+export const isChildCategory = (obj: any): obj is ChildCategoryInstance =>
+  getType(obj) === ChildCategory;

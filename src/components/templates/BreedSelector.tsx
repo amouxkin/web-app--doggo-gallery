@@ -19,8 +19,6 @@ export const BreedSelector = observer(() => {
     selectedCategories
   } = useBreedStore();
 
-  console.log(selectedCategories);
-
   const [values, setValues] = useState<
     Array<{
       label: string;
