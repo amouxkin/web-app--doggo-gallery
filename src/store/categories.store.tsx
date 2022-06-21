@@ -1,15 +1,22 @@
-import { flow, getType, Instance, types } from 'mobx-state-tree';
+import { cast, flow, getType, Instance, types } from 'mobx-state-tree';
 import {
   ApiStateModel,
   BreedParentModel,
   BreedParentModelInstance,
   BreedSingletonModel,
+  BreedSingletonModelInstance,
   BreedSubModel
 } from 'utilities/models';
 import { baseRouter } from 'utilities/router';
 import { BreedsResponse } from 'utilities/types';
 import { interlace } from 'utilities/helpers';
 import { createContext, FC, ProviderProps, useContext, useRef } from 'react';
+
+export const FilteredBreed = types.array(
+  types.reference(types.union(BreedParentModel, BreedSingletonModel, BreedSubModel))
+);
+
+export interface FilteredBreedInstance extends Instance<typeof FilteredBreed> {}
 
 export const CategoriesStore = types
   .compose(
@@ -40,6 +47,14 @@ export const CategoriesStore = types
           (category as BreedParentModelInstance).anySubBreedSelected ||
           category.state === 'fetching'
         );
+      });
+    },
+    get filteredBreeds(): Array<BreedParentModelInstance | BreedSingletonModelInstance> {
+      return self.categories.filter((category) => {
+        if (getType(category) === BreedParentModel) {
+          return (category as BreedParentModelInstance).anySubBreedSelected || category.isSelected;
+        }
+        return category.isSelected;
       });
     }
   }))

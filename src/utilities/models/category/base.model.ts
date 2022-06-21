@@ -7,8 +7,7 @@ export const BaseCategory = types
     types
       .model({
         id: types.identifier,
-        isSelected: optionalBoolean,
-        isFiltered: types.boolean
+        isSelected: optionalBoolean
       })
       .actions((self) => ({
         select: () => {
@@ -16,12 +15,6 @@ export const BaseCategory = types
         },
         unSelect: () => {
           self.isSelected = false;
-        },
-        filter: () => {
-          self.isFiltered = true;
-        },
-        unFilter: () => {
-          self.isFiltered = false;
         }
       }))
       .views((self) => ({
@@ -48,8 +41,14 @@ export interface BaseCategoryInstance extends Instance<typeof BaseCategory> {}
 /**
  * {images} property for Singleton categories and Sub Categories.
  */
-export const CategoryImages = types.model({
-  images: types.array(types.string)
-});
+export const CategoryImages = types
+  .model({
+    images: types.map(types.string)
+  })
+  .actions((self) => ({
+    clear: () => self.images.clear(),
+    pushImages: (...images: string[]) =>
+      images.forEach((image) => self.images.set(image.split('/').pop()!, image))
+  }));
 
 export interface CategoryImagesInstance extends Instance<typeof CategoryImages> {}

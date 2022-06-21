@@ -27,6 +27,14 @@ export const BreedParentModel = types
       self.isSelected = false;
       self.subBreeds.forEach((subBreed) => subBreed.unSelect());
     },
+    filter: () => {
+      self.isFiltered = true;
+      self.subBreeds.forEach((subBreed) => subBreed.filter());
+    },
+    unFilter: () => {
+      self.isFiltered = false;
+      self.subBreeds.forEach((subBreed) => subBreed.filter());
+    },
     unSelectJustParent: () => {
       self.isSelected = false;
     },
