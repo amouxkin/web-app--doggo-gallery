@@ -1,6 +1,5 @@
 import { flow, Instance, types } from 'mobx-state-tree';
-import { ApiStateModel } from 'utilities/models';
-import { optionalBoolean } from 'utilities/models/model-types';
+import { ApiStateModel, optionalBoolean } from 'utilities/models';
 
 export const BaseCategory = types
   .compose(
