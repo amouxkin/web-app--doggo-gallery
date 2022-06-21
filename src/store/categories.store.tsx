@@ -30,6 +30,9 @@ export const CategoriesStore = types
           .map((category) => category.images)
       );
     },
+    get isAllSelected() {
+      return self.categories.every((category) => category.isSelected);
+    },
     get isAnyFetching() {
       return self.categories.some((category) => {
         if (getType(category) === BreedSingletonModel) return category.state === 'fetching';
@@ -41,6 +44,12 @@ export const CategoriesStore = types
     }
   }))
   .actions((self) => ({
+    selectAllCategories: () => {
+      self.categories.forEach((category) => category.select());
+    },
+    unSelectAllCategories: () => {
+      self.categories.forEach((category) => category.unSelect());
+    },
     fetchCategories: flow(function* () {
       self.setFetching();
 
