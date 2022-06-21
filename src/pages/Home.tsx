@@ -5,13 +5,13 @@ import { BreedParentModelInstance } from 'utilities/models';
 import { useBreedStore } from 'store';
 import { BreedSingleCheckBox } from 'components/atoms';
 import { BreedWithSubCheckBox } from 'components/molecules';
-import { ImageGallery } from 'components/templates';
+import { BreedSelector, ImageGallery } from 'components/templates';
 
 export const Home: FC = observer(() => {
   const { categories } = useBreedStore();
   return (
     <HStack alignItems={'flex-start'}>
-      <VStack alignItems={'flex-start'}>
+      <VStack alignItems={'flex-start'} minW={'12rem'}>
         {categories.map((category) =>
           (category as BreedParentModelInstance)?.subBreeds ? (
             <BreedWithSubCheckBox
@@ -24,7 +24,9 @@ export const Home: FC = observer(() => {
         )}
       </VStack>
       <VStack w={'full'}>
-        <HStack w={'full'}></HStack>
+        <HStack w={'full'}>
+          <BreedSelector />
+        </HStack>
         <ImageGallery />
       </VStack>
     </HStack>
