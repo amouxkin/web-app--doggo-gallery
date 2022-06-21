@@ -16,6 +16,12 @@ export const BreedParentModel = types
   .views((self) => ({
     get url() {
       return `/breed/${self.name}/images`;
+    },
+    get anySubBreedFiltered() {
+      return self.subBreeds.some((subBreed) => subBreed.isFiltered);
+    },
+    get everySubBreedFiltered() {
+      return self.subBreeds.every((subBreed) => subBreed.isFiltered);
     }
   }))
   .actions((self) => ({
@@ -26,6 +32,14 @@ export const BreedParentModel = types
     unSelect: () => {
       self.isSelected = false;
       self.subBreeds.forEach((subBreed) => subBreed.unSelect());
+    },
+    filter: () => {
+      self.isFiltered = true;
+      self.subBreeds.forEach((subBreed) => subBreed.unFilter());
+    },
+    unFilter: () => {
+      self.isFiltered = false;
+      self.subBreeds.forEach((subBreed) => subBreed.unFilter());
     },
     unSelectJustParent: () => {
       self.isSelected = false;

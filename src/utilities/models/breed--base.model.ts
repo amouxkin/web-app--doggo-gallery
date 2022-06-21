@@ -6,7 +6,8 @@ export const BreedBaseModel = types
     types
       .model({
         id: types.identifier,
-        isSelected: types.optional(types.boolean, false)
+        isSelected: types.optional(types.boolean, false),
+        isFiltered: types.optional(types.boolean, false)
       })
       .actions((self) => ({
         select: () => {
@@ -14,6 +15,12 @@ export const BreedBaseModel = types
         },
         unSelect: () => {
           self.isSelected = false;
+        },
+        filter: () => {
+          self.isFiltered = true;
+        },
+        unFilter: () => {
+          self.isFiltered = false;
         }
       }))
       .views((self) => ({
