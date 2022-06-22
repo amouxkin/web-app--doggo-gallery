@@ -41,30 +41,38 @@ export const SelectedImageGallery: FC<{ imageUrls: string[] }> = ({ imageUrls })
           ))}
         </AnimatePresence>
       </Wrap>
-      <Pagination pagesCount={pagesCount} currentPage={currentPage} onPageChange={setCurrentPage}>
-        <PaginationContainer align="center" justify="space-between" p={4} w="auto">
-          <PaginationPrevious mr={10}>Previous</PaginationPrevious>
-          <PaginationPageGroup
-            isInline
-            align="stretch"
-            justify={'space-between'}
-            separator={<PaginationSeparator w={20} jumpSize={2} />}
+      <AnimatePresence>
+        {!!imageUrls.length && (
+          <Pagination
+            pagesCount={pagesCount}
+            currentPage={currentPage}
+            onPageChange={setCurrentPage}
           >
-            {pages.map((page: number) => (
-              <PaginationPage
-                key={`pagination_page_${page}`}
-                page={page}
-                w={20}
-                _current={{
-                  bg: 'green.300',
-                  fontSize: 'sm'
-                }}
-              />
-            ))}
-          </PaginationPageGroup>
-          <PaginationNext ml={10}>Next</PaginationNext>
-        </PaginationContainer>
-      </Pagination>
+            <PaginationContainer align="center" justify="space-between" p={4} w="auto">
+              <PaginationPrevious mr={10}>Previous</PaginationPrevious>
+              <PaginationPageGroup
+                isInline
+                align="stretch"
+                justify={'space-between'}
+                separator={<PaginationSeparator w={20} jumpSize={2} />}
+              >
+                {pages.map((page: number) => (
+                  <PaginationPage
+                    key={`pagination_page_${page}`}
+                    page={page}
+                    w={20}
+                    _current={{
+                      bg: 'green.300',
+                      fontSize: 'sm'
+                    }}
+                  />
+                ))}
+              </PaginationPageGroup>
+              <PaginationNext ml={10}>Next</PaginationNext>
+            </PaginationContainer>
+          </Pagination>
+        )}
+      </AnimatePresence>
     </VStack>
   );
 };
