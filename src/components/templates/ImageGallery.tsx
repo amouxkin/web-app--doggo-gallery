@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { VStack, Wrap } from '@chakra-ui/react';
 import { AnimatePresence } from 'framer-motion';
 import {
@@ -23,6 +23,14 @@ export const SelectedImageGallery: FC<{ imageUrls: string[] }> = ({ imageUrls })
     },
     initialState: { currentPage: 1, pageSize: 12 }
   });
+
+  useEffect(() => {
+    /**
+     * To handle scenario where if page is 15 and all are cleared i.e. total becomes 0,
+     * it will still hold that page number.
+     */
+    setCurrentPage(1);
+  }, [imageUrls.length]);
 
   return (
     <VStack>
