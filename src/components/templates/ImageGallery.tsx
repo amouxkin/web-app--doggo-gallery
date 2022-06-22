@@ -34,13 +34,13 @@ export const SelectedImageGallery: FC<{ imageUrls: string[] }> = ({ imageUrls })
 
   return (
     <VStack>
-      <Wrap>
-        <AnimatePresence presenceAffectsLayout>
+      <AnimatePresence presenceAffectsLayout>
+        <Wrap maxW={'80rem'}>
           {imageUrls.slice(offset, offset + 12).map((imageUrl) => (
             <ImageGalleryItem key={getImageId(imageUrl)} image={imageUrl} />
           ))}
-        </AnimatePresence>
-      </Wrap>
+        </Wrap>
+      </AnimatePresence>
       <AnimatePresence>
         {!!imageUrls.length && (
           <Pagination
