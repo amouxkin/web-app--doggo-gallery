@@ -1,41 +1,29 @@
 import { FC } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Checkbox, HStack, VStack } from '@chakra-ui/react';
-import { BreedParentModelInstance } from 'utilities/models';
+import { Heading, HStack, VStack, Text } from '@chakra-ui/react';
+import { isParentCategory } from 'utilities/models';
 import { useBreedStore } from 'store';
-import { BreedSingleCheckBox } from 'components/atoms';
-import { BreedWithSubCheckBox } from 'components/molecules';
-import { BreedSelector, SelectedImageGallery } from 'components/templates';
+import { CategorySingleCheckBox } from 'components/atoms';
+import { CategoryWithSubCheckBox } from 'components/molecules';
+import { SelectedImageGallery } from 'components/templates';
 
 export const Selector: FC = observer(() => {
-  const store = useBreedStore();
+  const { categories, interlacedSelectedImages } = useBreedStore();
   return (
     <HStack alignItems={'flex-start'}>
       <VStack alignItems={'flex-start'} minW={'12rem'}>
-        <Checkbox
-          isChecked={store.isAllSelected && store.categories.length > 0}
-          onChange={() =>
-            !store.isAllSelected ? store.selectAllCategories() : store.unSelectAllCategories()
-          }
-        >
-          All
-        </Checkbox>
-        {store.categories.map((category) =>
-          (category as BreedParentModelInstance)?.subBreeds ? (
-            <BreedWithSubCheckBox
-              key={category.name}
-              breed={category as BreedParentModelInstance}
-            />
+        {Array.from(categories.values()).map((category) =>
+          isParentCategory(category) ? (
+            <CategoryWithSubCheckBox key={category.name} category={category} />
           ) : (
-            <BreedSingleCheckBox key={category.name} breed={category} />
+            <CategorySingleCheckBox key={category.name} category={category} />
           )
         )}
       </VStack>
       <VStack w={'full'}>
-        <HStack w={'full'}>
-          <BreedSelector />
-        </HStack>
-        <SelectedImageGallery />
+        <Heading as={'h4'}>Dynamic Singleton Loader</Heading>
+        <Text>Click on a Category and it will load them in isolation (but smart enough to do it breed wise when needed)</Text>
+        <SelectedImageGallery imageUrls={interlacedSelectedImages} />
       </VStack>
     </HStack>
   );

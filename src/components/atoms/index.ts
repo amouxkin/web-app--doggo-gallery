@@ -1,2 +1,2 @@
-export * from './BreedSingleCheckBox';
+export * from './CategorySingleCheckBox';
 export * from './Link';
