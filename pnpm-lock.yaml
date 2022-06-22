@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@ajna/pagination': ^1.4.19
   '@babel/core': ^7.18.5
   '@chakra-ui/icons': ^2.0.2
   '@chakra-ui/react': ^2.2.1
@@ -33,6 +34,7 @@ specifiers:
   wretch: ^1.7.10
 
 dependencies:
+  '@ajna/pagination': 1.4.19_z2hhsn7a4da7wwzg6ztzretlu4
   '@chakra-ui/icons': 2.0.2_react@18.2.0
   '@chakra-ui/react': 2.2.1_dersw4eko4axp24m2cfli7j6ja
   '@emotion/react': 11.9.3_7eu627umq2cbnjxmysy5yb5jqq
@@ -67,6 +69,25 @@ devDependencies:
   vitest: 0.15.1_5kn25y5qflu3iackh4aen2ph6u
 
 packages:
+
+  /@ajna/pagination/1.4.19_z2hhsn7a4da7wwzg6ztzretlu4:
+    resolution: {integrity: sha512-QnrERhw1fhAVst1pBrXyPruJphbrLnIYcHf5bpWS7IhtK3tKljTPQ8/UbUsroJ6oAqHCp9X9nLi49PT+xw/hXw==}
+    peerDependencies:
+      '@chakra-ui/react': ^2.2.1
+      '@emotion/react': ^11.9.0
+      '@emotion/styled': ^11.8.1
+      react: ^18.1.0
+      react-dom: ^18.1.0
+      react-scripts: 5.0.1
+    dependencies:
+      '@chakra-ui/react': 2.2.1_dersw4eko4axp24m2cfli7j6ja
+      '@emotion/react': 11.9.3_7eu627umq2cbnjxmysy5yb5jqq
+      '@emotion/styled': 11.9.3_qbwmrvb6ojitbfrbjtglmejmbm
+      framer-motion: 6.3.11_biqbaboplfbrettd7655fr4n2y
+      lodash.union: 4.6.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /@ampproject/remapping/2.2.0:
     resolution: {integrity: sha512-qRmjj8nj9qmLTQXXmaR1cck3UXSRMPrbsLJAasZpF+t3riI71BXed5ebIOYwQntykeZuhjsdweEc9BxH5Jc26w==}
@@ -3229,6 +3250,10 @@ packages:
 
   /lodash.mergewith/4.6.2:
     resolution: {integrity: sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ==}
+    dev: false
+
+  /lodash.union/4.6.0:
+    resolution: {integrity: sha512-c4pB2CdGrGdjMKYLA+XiRDO7Y0PRQbm/Gzg8qMj+QH+pFVAoTp5sBpO0odL3FjoPCGjK96p6qsP+yQoiLoOBcw==}
     dev: false
 
   /lodash/4.17.21:

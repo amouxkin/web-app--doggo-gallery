@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { Checkbox, Grid, GridItem, Stack } from '@chakra-ui/react';
-import { BreedSelector, ImageGallery } from 'components/templates';
+import { BreedSelector, SelectedImageGallery } from 'components/templates';
 import { useBreedStore } from 'store';
 import {
   isChildCategory,
@@ -12,7 +12,7 @@ import {
 import { useMemo } from 'react';
 
 export const Home = observer(() => {
-  const { selectedCategories } = useBreedStore();
+  const { selectedCategories, interlacedSelectedImages } = useBreedStore();
   const treeNodes = useMemo(() => {
     const arrayElements = new Set<SingletonCategoryInstance | ParentCategoryInstance>();
     selectedCategories.forEach((category) => {
@@ -90,7 +90,7 @@ export const Home = observer(() => {
         <BreedSelector />
       </GridItem>
       <GridItem key={'gallery'} pl="2" area={'gallery'}>
-        <ImageGallery />
+        <SelectedImageGallery imageUrls={interlacedSelectedImages} />
       </GridItem>
     </Grid>
   );

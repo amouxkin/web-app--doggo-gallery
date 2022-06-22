@@ -5,7 +5,7 @@ import { BreedParentModelInstance } from 'utilities/models';
 import { useBreedStore } from 'store';
 import { BreedSingleCheckBox } from 'components/atoms';
 import { BreedWithSubCheckBox } from 'components/molecules';
-import { BreedSelector, ImageGallery } from 'components/templates';
+import { BreedSelector, SelectedImageGallery } from 'components/templates';
 
 export const Selector: FC = observer(() => {
   const store = useBreedStore();
@@ -35,7 +35,7 @@ export const Selector: FC = observer(() => {
         <HStack w={'full'}>
           <BreedSelector />
         </HStack>
-        <ImageGallery />
+        <SelectedImageGallery />
       </VStack>
     </HStack>
   );

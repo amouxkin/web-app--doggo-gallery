@@ -2,7 +2,7 @@ import { FC, useEffect } from 'react';
 import { Route, Router, Switch } from 'wouter';
 import { observer } from 'mobx-react-lite';
 import { useBreedStore } from 'store';
-import { ImageGallery, NavigationBar } from 'components/templates';
+import { NavigationBar, SelectedImageGallery } from 'components/templates';
 import { Home } from './pages';
 
 export const App: FC = observer(() => {
@@ -17,7 +17,7 @@ export const App: FC = observer(() => {
       <NavigationBar />
       <Switch>
         <Route path={'/saved'}>
-          <ImageGallery onlyFavourites />
+          <SelectedImageGallery imageUrls={store.interlacedSelectedImages} />
         </Route>
         <Route path={'/'}>
           <Home />
