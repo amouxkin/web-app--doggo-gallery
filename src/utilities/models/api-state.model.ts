@@ -8,6 +8,9 @@ export const ApiStateModel = types
   .views((self) => ({
     get fetchSucceeded() {
       return self.state === ApiState.success;
+    },
+    get fetchLoading() {
+      return self.state === ApiState.fetching;
     }
   }))
   .actions((self) => ({

@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
-import { Checkbox, Grid, GridItem, Stack } from '@chakra-ui/react';
-import { BreedSelector, SelectedImageGallery } from 'components/templates';
+import { Center, Checkbox, Grid, GridItem, Stack, Text, VStack } from '@chakra-ui/react';
+import { BreedSelector, RandomImages, SelectedImageGallery } from 'components/templates';
 import { useBreedStore } from 'store';
 import {
   isChildCategory,
@@ -38,83 +38,94 @@ export const Home = observer(() => {
       fontWeight="bold"
     >
       <GridItem key={'nav'} pl="2" pt="12" area={'nav'}>
-        {!!treeNodes.length && (
-          <Checkbox
-            isChecked={isAllSelected}
-            onChange={() => {
-              isAllSelected
-                ? treeNodes.forEach((node) => {
-                    node.unSelect();
-                  })
-                : treeNodes.forEach((node) => {
-                    node.select();
-                  });
-            }}
-          >
-            all
-          </Checkbox>
-        )}
+        <Stack>
+          {!!treeNodes.length && (
+            <Checkbox
+              isChecked={isAllSelected}
+              onChange={() => {
+                isAllSelected
+                  ? treeNodes.forEach((node) => {
+                      node.unSelect();
+                    })
+                  : treeNodes.forEach((node) => {
+                      node.select();
+                    });
+              }}
+            >
+              all
+            </Checkbox>
+          )}
 
-        {treeNodes.map((category) =>
-          isParentCategory(category) ? (
-            <Stack key={category.id}>
-              <Checkbox
-                isChecked={category.isSelected || category.allChildrenSelected}
-                isIndeterminate={category.isIndeterminate}
-                onChange={() => {
-                  if (category.isSelected) {
-                    category.unSelect();
-                    category.unSelectChildren();
-                  } else {
-                    category.select();
-                    category.selectChildren();
-                  }
-                }}
-              >
-                {category.name}
-              </Checkbox>
-              <Stack key={`${category.id}--sub`} pl={6}>
-                {category.childrenArray
-                  .filter(
-                    (child) =>
-                      selectedCategories.includes(child) || selectedCategories.includes(category)
-                  )
-                  .map((child) => (
-                    <Checkbox
-                      key={child.id}
-                      isChecked={child.isSelected}
-                      onChange={() => {
-                        if (child.isSelected) {
-                          child.unSelect();
-                          category.unSelect();
-                        } else child.select();
-                      }}
-                    >
-                      {child.name}
-                    </Checkbox>
-                  ))}
+          {treeNodes.map((category) =>
+            isParentCategory(category) ? (
+              <Stack key={category.id}>
+                <Checkbox
+                  isChecked={category.isSelected || category.allChildrenSelected}
+                  isIndeterminate={category.isIndeterminate}
+                  onChange={() => {
+                    if (category.isSelected) {
+                      category.unSelect();
+                      category.unSelectChildren();
+                    } else {
+                      category.select();
+                      category.selectChildren();
+                    }
+                  }}
+                >
+                  {category.name}
+                </Checkbox>
+                <Stack key={`${category.id}--sub`} pl={6}>
+                  {category.childrenArray
+                    .filter(
+                      (child) =>
+                        selectedCategories.includes(child) || selectedCategories.includes(category)
+                    )
+                    .map((child) => (
+                      <Checkbox
+                        key={child.id}
+                        isChecked={child.isSelected}
+                        onChange={() => {
+                          if (child.isSelected) {
+                            child.unSelect();
+                            category.unSelect();
+                          } else child.select();
+                        }}
+                      >
+                        {child.name}
+                      </Checkbox>
+                    ))}
+                </Stack>
               </Stack>
-            </Stack>
-          ) : (
-            isSingletonCategory(category) && (
-              <Checkbox
-                key={category.id}
-                isChecked={category.isSelected}
-                onChange={() => {
-                  category.isSelected ? category.unSelect() : category.select();
-                }}
-              >
-                {category.name}
-              </Checkbox>
+            ) : (
+              isSingletonCategory(category) && (
+                <Checkbox
+                  key={category.id}
+                  isChecked={category.isSelected}
+                  onChange={() => {
+                    category.isSelected ? category.unSelect() : category.select();
+                  }}
+                >
+                  {category.name}
+                </Checkbox>
+              )
             )
-          )
-        )}
+          )}
+        </Stack>
       </GridItem>
       <GridItem key={'selector'} pl="2" area={'selector'} justifySelf={'center'}>
         <BreedSelector />
       </GridItem>
       <GridItem key={'gallery'} pl="2" area={'gallery'}>
-        <SelectedImageGallery imageUrls={interlacedSelectedImages} />
+        {!!selectedCategories.length ? (
+          <SelectedImageGallery imageUrls={interlacedSelectedImages} />
+        ) : (
+          <VStack>
+            <Stack pb={10}>
+              <Text>Random images</Text>
+            </Stack>
+            <RandomImages />
+          </VStack>
+        )}
       </GridItem>
     </Grid>
   );

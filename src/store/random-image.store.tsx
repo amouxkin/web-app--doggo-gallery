@@ -2,7 +2,7 @@ import { flow, Instance, types } from 'mobx-state-tree';
 import { ApiStateModel } from 'utilities/models';
 import { baseRouter } from 'utilities/router';
 import { ImagesResponse } from 'utilities/types';
-import { createContext, FC, ProviderProps, useRef } from 'react';
+import { createContext, FC, ProviderProps, useContext, useRef } from 'react';
 
 export const RandomImageStore = types
   .compose(
@@ -17,7 +17,7 @@ export const RandomImageStore = types
 
       try {
         const { message }: ImagesResponse = yield baseRouter
-          .url(' /breeds/image/random/12')
+          .url('/breeds/image/random/12')
           .get()
           .json();
 
@@ -42,3 +42,5 @@ export const RandomImageProvider: FC<Omit<ProviderProps<RandomImageStoreInstance
 
   return <RandomImageContext.Provider value={store.current} {...props} />;
 };
+
+export const useRandomImage = () => useContext(RandomImageContext);
