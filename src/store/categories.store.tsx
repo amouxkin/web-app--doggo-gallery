@@ -69,6 +69,18 @@ export const CategoriesStore = types
             : []
         )
       );
+    },
+    /**
+     * To be used in hooks
+     */
+    get selectedCategoriesKey() {
+      return self.selectedCategories.map((category) => category.id).join('--');
+    },
+    get isAllSelected() {
+      return self.selectedCategories.every((category) => {
+        if (isParentCategory(category) && category.allChildrenSelected) return true;
+        return category.isSelected;
+      });
     }
   }))
   .named('CategoriesStore')

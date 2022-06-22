@@ -12,7 +12,8 @@ import {
 import { useMemo } from 'react';
 
 export const Home = observer(() => {
-  const { selectedCategories, interlacedSelectedImages } = useBreedStore();
+  const { selectedCategories, interlacedSelectedImages, isAllSelected, selectedCategoriesKey } =
+    useBreedStore();
   const treeNodes = useMemo(() => {
     const arrayElements = new Set<SingletonCategoryInstance | ParentCategoryInstance>();
     selectedCategories.forEach((category) => {
@@ -21,7 +22,7 @@ export const Home = observer(() => {
     });
 
     return Array.from(arrayElements.values());
-  }, [selectedCategories.map((category) => category.id).join('--')]);
+  }, [selectedCategoriesKey]);
 
   return (
     <Grid
@@ -37,6 +38,23 @@ export const Home = observer(() => {
       fontWeight="bold"
     >
       <GridItem key={'nav'} pl="2" pt="12" area={'nav'}>
+        {!!treeNodes.length && (
+          <Checkbox
+            isChecked={isAllSelected}
+            onChange={() => {
+              isAllSelected
+                ? treeNodes.forEach((node) => {
+                    node.unSelect();
+                  })
+                : treeNodes.forEach((node) => {
+                    node.select();
+                  });
+            }}
+          >
+            all
+          </Checkbox>
+        )}
+
         {treeNodes.map((category) =>
           isParentCategory(category) ? (
             <Stack key={category.id}>
@@ -57,13 +75,19 @@ export const Home = observer(() => {
               </Checkbox>
               <Stack key={`${category.id}--sub`} pl={6}>
                 {category.childrenArray
-                  .filter((child) => selectedCategories.includes(child))
+                  .filter(
+                    (child) =>
+                      selectedCategories.includes(child) || selectedCategories.includes(category)
+                  )
                   .map((child) => (
                     <Checkbox
                       key={child.id}
                       isChecked={child.isSelected}
                       onChange={() => {
-                        child.isSelected ? child.unSelect() : child.select();
+                        if (child.isSelected) {
+                          child.unSelect();
+                          category.unSelect();
+                        } else child.select();
                       }}
                     >
                       {child.name}
